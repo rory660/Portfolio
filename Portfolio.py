@@ -54,14 +54,12 @@ class Portfolio:
 		totalDeletions = 0
 		totalCommits = 0
 		for contributor in contributors:
-			print(contributor["author"]["login"])
 			additions = sum([week["a"] for week in contributor["weeks"]])
 			deletions = sum([week["d"] for week in contributor["weeks"]])
 			totalAdditions += additions
 			totalDeletions += deletions
 			totalCommits += contributor["total"]
 			if contributor["author"]["login"] == self.username:
-				print(":)")
 				userContributor = contributor
 				userAdditions = additions
 				userDeletions = deletions
