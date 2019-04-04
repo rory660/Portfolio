@@ -1,4 +1,4 @@
-MAIN_FILENAME = "portfolio.md"
+MAIN_FILENAME = "README.md"
 TEMPLATE_LOCATION = "templates/"
 RENDERED_LOCATION = "rendered/"
 MAIN_LOCATION = ""

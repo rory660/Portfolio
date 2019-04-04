@@ -5,6 +5,7 @@ Below is an automatically generated list of all the GitHub repos that I have con
 | Repository | Owner | My / Total Commits | My / Total Additions | My / Total Deletions |
 |:----------:|:-----:|:------------------:|:--------------------:|:--------------------:|
 |[StoryArcPlotter](https://github.com/rory660/StoryArcPlotter)|rory660|21 / 21|3798 / 3798|2883 / 2883|
+|[TBTTBSQSA](https://github.com/H3xept/TBTTBSQSA)|H3xept|29 / 111|3083 / 136178|550 / 128276|
 |[GemClicker](https://github.com/rory660/GemClicker)|rory660|48 / 48|2509 / 2509|1424 / 1424|
 |[SpectrumPlatformer](https://github.com/rory660/SpectrumPlatformer)|rory660|26 / 26|1977 / 1977|568 / 568|
 |[Bashanelli](https://github.com/H3xept/Bashanelli)|H3xept|38 / 119|1637 / 5327|490 / 1667|
