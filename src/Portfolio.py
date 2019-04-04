@@ -2,6 +2,8 @@ import os
 import requests
 
 from Entry import Entry
+from Renderer import Renderer, TEMPLATE_LOCATION
+
 
 ENV_SECRET_GITHUB = "SECRET_GITHUB"
 SECRET_GITHUB = os.environ.get(ENV_SECRET_GITHUB)
@@ -11,6 +13,16 @@ API_VERSION = "application/vnd.github.v3+json"
 
 HEADER_OAUTH = "OAUTH-TOKEN"
 HEADER_ACCEPT = "Accept"
+
+SYMBOL_USERNAME = "username"
+SYMBOL_REPO_OWNER = "repoOwner"
+SYMBOL_REPO_NAME = "repoName"
+SYMBOL_COMMITS = "commits"
+SYMBOL_ADDITIONS = "additions"
+SYMBOL_DELETIONS = "deletions"
+SYMBOL_TOTAL_COMMITS = "totalCommits"
+SYMBOL_TOTAL_ADDITIONS = "totalAdditions"
+SYMBOL_TOTAL_DELETIONS = "totalDeletions"
 
 HEADERS = {HEADER_OAUTH: SECRET_GITHUB, HEADER_ACCEPT: API_VERSION}
 
@@ -30,22 +42,27 @@ class Portfolio:
 		self.render()
 
 	def render(self):
-		for entry in self.entries:
-			print(entry)
+		renderer = Renderer()
+		self.setupRenderer(renderer)
+		for filename in os.listdir(TEMPLATE_LOCATION):
+			print(f"Rendering {filename}...")
+			renderer.renderFile(TEMPLATE_LOCATION + filename)
 
 	def generateEntries(self):
 		for repo in self.repos:
 			if not repo["private"]:
 				entry = self.generateEntry(repo)
 				if entry != None:
-					self.entries.append(self.generateEntry(repo))
+					self.entries.append(entry)
 
 	def fetchRepos(self):
+		print("Fetching repository data...")
 		self.repos = get("/user/repos")
 
 	def generateEntry(self, repo):
 		owner = repo["owner"]["login"]
 		name = repo["name"]
+		print(f"fetching contributor data for {name}")
 		contributors = get(f"/repos/{owner}/{name}/stats/contributors")
 		userContributor = None
 		userAdditions = 0
@@ -74,6 +91,17 @@ class Portfolio:
 			entry.setTotalDeletions(totalDeletions)
 			return entry
 		return None
+
+	def setupRenderer(self, renderer):
+		renderer.addSymbol(SYMBOL_USERNAME, self.username)
+		renderer.addSymbol(SYMBOL_REPO_OWNER, [entry.getOwner() for entry in self.entries])
+		renderer.addSymbol(SYMBOL_REPO_NAME, [entry.getRepository() for entry in self.entries])
+		renderer.addSymbol(SYMBOL_COMMITS, [entry.getCommits() for entry in self.entries])
+		renderer.addSymbol(SYMBOL_ADDITIONS, [entry.getAdditions() for entry in self.entries])
+		renderer.addSymbol(SYMBOL_DELETIONS, [entry.getDeletions() for entry in self.entries])
+		renderer.addSymbol(SYMBOL_TOTAL_COMMITS, [entry.getTotalCommits() for entry in self.entries])
+		renderer.addSymbol(SYMBOL_TOTAL_ADDITIONS, [entry.getTotalAdditions() for entry in self.entries])
+		renderer.addSymbol(SYMBOL_TOTAL_DELETIONS, [entry.getTotalDeletions() for entry in self.entries])
 
 def getFull(fullPath):
 	if SECRET_GITHUB == None:

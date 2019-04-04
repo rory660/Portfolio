@@ -30,3 +30,28 @@ class Entry:
 
 	def setTotalDeletions(self, totalDeletions):
 		self.totalDeletions = totalDeletions
+
+	def getOwner(self):
+		return self.owner
+
+	def getRepository(self):
+		return self.repository
+
+	def getCommits(self):
+		return self.commits
+
+	def getAdditions(self):
+		return self.additions
+
+	def getDeletions(self):
+		return self.deletions
+
+	def getTotalCommits(self):
+		return self.totalCommits
+
+	def getTotalAdditions(self):
+		return self.totalAdditions
+
+	def getTotalDeletions(self):
+		return self.totalDeletions
+
