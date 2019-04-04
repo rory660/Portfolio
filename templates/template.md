@@ -1,2 +1,0 @@
-# Test
-- username = {{username}}, owner = {{repoOwner}}, repository = {{repoName}}, commits = {{commits}}/{{totalCommits}}, additions = {{additions}}/{{totalAdditions}}, deletions = {{deletions}}/{{totalDeletions}}
