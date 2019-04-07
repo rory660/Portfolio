@@ -2,6 +2,6 @@
 
 Below is an automatically generated list of all the GitHub repos that I have contributed to.
 
-| Repository | Owner | My / Total Commits | My / Total Additions | My / Total Deletions |
-|:----------:|:-----:|:------------------:|:--------------------:|:--------------------:|
-|[{{repoName}}]({{repoUrl}})|{{repoOwner}}|{{commits}} / {{totalCommits}}|{{additions}} / {{totalAdditions}}|{{deletions}} / {{totalDeletions}}|
+| Repository | Owner | Language | My / Total Commits | My / Total Additions | My / Total Deletions |
+|:----------:|:-----:|:--------:|:------------------:|:--------------------:|:--------------------:|
+|[{{repoName}}]({{repoUrl}})|{{repoOwner}}|{{repoLanguages}}|{{repoCommits}} / {{repoTotalCommits}}|{{repoAdditions}} / {{repoTotalAdditions}}|{{repoDeletions}} / {{repoTotalDeletions}}|

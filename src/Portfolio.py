@@ -17,13 +17,15 @@ SYMBOL_USERNAME = "username"
 SYMBOL_REPO_OWNER = "repoOwner"
 SYMBOL_REPO_NAME = "repoName"
 SYMBOL_REPO_URL = "repoUrl"
-SYMBOL_COMMITS = "commits"
-SYMBOL_ADDITIONS = "additions"
-SYMBOL_DELETIONS = "deletions"
-SYMBOL_TOTAL_COMMITS = "totalCommits"
-SYMBOL_TOTAL_ADDITIONS = "totalAdditions"
-SYMBOL_TOTAL_DELETIONS = "totalDeletions"
+SYMBOL_COMMITS = "repoCommits"
+SYMBOL_ADDITIONS = "repoAdditions"
+SYMBOL_DELETIONS = "repoDeletions"
+SYMBOL_TOTAL_COMMITS = "repoTotalCommits"
+SYMBOL_TOTAL_ADDITIONS = "repoTotalAdditions"
+SYMBOL_TOTAL_DELETIONS = "repoTotalDeletions"
+SYMBOL_LANGUAGES = "repoLanguages"
 
+LIST_SYMBOLS = [SYMBOL_REPO_OWNER, SYMBOL_REPO_NAME, SYMBOL_REPO_URL, SYMBOL_COMMITS, SYMBOL_ADDITIONS, SYMBOL_DELETIONS, SYMBOL_TOTAL_COMMITS, SYMBOL_TOTAL_ADDITIONS, SYMBOL_TOTAL_DELETIONS, SYMBOL_LANGUAGES]
 
 HEADERS = {HEADER_OAUTH: SECRET_GITHUB, HEADER_ACCEPT: API_VERSION}
 
@@ -75,6 +77,8 @@ class Portfolio:
 		print(f"Fetching contributor data for {entry[SYMBOL_REPO_NAME]}")
 
 		contributors = get(f"/repos/{entry[SYMBOL_REPO_OWNER]}/{entry[SYMBOL_REPO_NAME]}/stats/contributors")
+		
+
 		totalAdditions = 0
 		totalDeletions = 0
 		totalCommits = 0
@@ -94,20 +98,17 @@ class Portfolio:
 		entry[SYMBOL_TOTAL_DELETIONS] = totalDeletions
 		
 		if(entry.get(SYMBOL_COMMITS) != None):
+			print(f"Fetching language data for {entry[SYMBOL_REPO_NAME]}")
+			languages = get(f"/repos/{entry[SYMBOL_REPO_OWNER]}/{entry[SYMBOL_REPO_NAME]}/languages")
+			entry[SYMBOL_LANGUAGES] = ", ".join(language for language in languages.keys())
 			return entry
+		print(f"{entry[SYMBOL_REPO_NAME]} contains no contributions by {self.username}, discarding...")
 		return None
 
 	def setupRenderer(self, renderer):
 		renderer.addSymbol(SYMBOL_USERNAME, self.username)
-		renderer.addSymbol(SYMBOL_REPO_OWNER, [entry.get(SYMBOL_REPO_OWNER) for entry in self.entries])
-		renderer.addSymbol(SYMBOL_REPO_NAME, [entry.get(SYMBOL_REPO_NAME) for entry in self.entries])
-		renderer.addSymbol(SYMBOL_COMMITS, [entry.get(SYMBOL_COMMITS) for entry in self.entries])
-		renderer.addSymbol(SYMBOL_ADDITIONS, [entry.get(SYMBOL_ADDITIONS) for entry in self.entries])
-		renderer.addSymbol(SYMBOL_DELETIONS, [entry.get(SYMBOL_DELETIONS) for entry in self.entries])
-		renderer.addSymbol(SYMBOL_TOTAL_COMMITS, [entry.get(SYMBOL_TOTAL_COMMITS) for entry in self.entries])
-		renderer.addSymbol(SYMBOL_TOTAL_ADDITIONS, [entry.get(SYMBOL_TOTAL_ADDITIONS) for entry in self.entries])
-		renderer.addSymbol(SYMBOL_TOTAL_DELETIONS, [entry.get(SYMBOL_TOTAL_DELETIONS) for entry in self.entries])
-		renderer.addSymbol(SYMBOL_REPO_URL, [entry.get(SYMBOL_REPO_URL) for entry in self.entries])
+		for symbol in LIST_SYMBOLS:
+			renderer.addSymbol(symbol, [entry.get(symbol) for entry in self.entries])
 
 def getFull(fullPath):
 	if SECRET_GITHUB == None:

@@ -18,7 +18,6 @@ class Renderer:
 
 	def addSymbol(self, name, value):
 		self.symbolMap[name] = value
-
 	def render(self):
 		renderedContent = ""
 		for line in self.content:
